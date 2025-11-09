@@ -1,9 +1,5 @@
  
-markdown<p align="center">
-  
-    <img src="https://raw.githubusercontent.com/Komodo2041/laravel_simpleapi/main/screenshot.jpg" width="800" alt="Laravel Simple API"/>
-  
-</p>
+ 
 
 <h1 align="center">Laravel Simple API – Company & Worker CRUD</h1>
 

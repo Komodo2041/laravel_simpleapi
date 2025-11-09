@@ -1,15 +1,4 @@
- Oto gotowy plik README.md dla Twojego projektu:
-https://github.com/Komodo2041/laravel_simpleapi
-Zawiera:
-
-Profesjonalny wygląd
-Pełną listę endpointów z routes/api.php
-Przykłady użycia (cURL + JSON)
-Live demo (po wdrożeniu)
-Tagi: #php #laravel #hiring
-
-
-Skopiuj i wklej do README.md w repozytorium
+ 
 markdown<p align="center">
   
     <img src="https://raw.githubusercontent.com/Komodo2041/laravel_simpleapi/main/screenshot.jpg" width="800" alt="Laravel Simple API"/>
@@ -28,7 +17,7 @@ markdown<p align="center">
   <img src="https://img.shields.io/badge/Laravel-11-red" alt="Laravel 11">
   <img src="https://img.shields.io/badge/PHP-8.2-blue" alt="PHP 8.2">
   <img src="https://img.shields.io/badge/MySQL-8.0-green" alt="MySQL">
-  <img src="https://img.shields.io/badge/Live-Demo-brightgreen" alt="Live Demo">
+  
 </p>
 
 ---

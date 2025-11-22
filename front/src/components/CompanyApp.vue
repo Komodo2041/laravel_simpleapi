@@ -3,6 +3,7 @@
        <h2> {{name}} </h2>
          <table class="table">
             <tr v-for="c in company" v-bind:key="c.name"> 
+               <td>{{c.id}}</td>
                <td>{{c.name}}</td>
                <td>{{c.adress}}</td>
                <td>{{c.city}}</td>

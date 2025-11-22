@@ -21,7 +21,7 @@
 
 ## Opis projektu
 Prosta, ale solidna **REST API** do zarządzania **firmami** i **pracownikami**.  
-Na froncie użyteo Vue.js w połączeniu z Laravelem na backendzie 
+Na froncie użyto Vue.js w połączeniu z Laravelem na backendzie 
 
 ---
 

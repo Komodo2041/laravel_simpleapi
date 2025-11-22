@@ -20,7 +20,7 @@
 
 ## Opis projektu
 Prosta, ale solidna **REST API** do zarządzania **firmami** i **pracownikami**.  
-Idealna jako projekt portfolio dla **juniora PHP/Laravel**.
+Na froncie użyteo Vue.js w połączeniu z Laravelem na backendzie 
 
 ---
 
@@ -30,9 +30,10 @@ Idealna jako projekt portfolio dla **juniora PHP/Laravel**.
 
 | Metoda | Ścieżka | Opis | Przykład payload |
 |-------|--------|------|------------------|
+| `GET` | `/api/company` | Pobierz firmy | - |
 | `POST` | `/api/company/add` | Dodaj firmę | `{ "name": "TechCorp", "city": "Warszawa" }` |
 | `POST` | `/api/company/update/{id}` | Aktualizuj | `{ "name": "NewName" }` |
-| `POST` | `/api/company/delete/{id}` | Usuń | – |
+| `DELETE` | `/api/company/delete/{id}` | Usuń | – |
 
 ### Pracownicy (Worker)
 
@@ -40,7 +41,7 @@ Idealna jako projekt portfolio dla **juniora PHP/Laravel**.
 |-------|--------|------|------------------|
 | `POST` | `/api/worker/add` | Dodaj pracownika | `{ "name": "Jan", "company_id": 1 }` |
 | `POST` | `/api/worker/update/{id}` | Aktualizuj | `{ "name": "Jan Kowalski" }` |
-| `POST` | `/api/worker/delete/{id}` | Usuń | – |
+| `DELETE` | `/api/worker/delete/{id}` | Usuń | – |
 
  
 

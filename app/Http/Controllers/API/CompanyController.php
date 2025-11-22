@@ -9,6 +9,13 @@ use App\Models\Company;
 class CompanyController extends Controller
 {
  
+    public function company(Request $request) 
+    {
+        $company = Company::all();
+        return response()->json(['company' => $company], 200);
+    }
+
+
     public function add(Request $request)
     {
         $allData = $request->all();

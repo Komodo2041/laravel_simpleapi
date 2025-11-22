@@ -13,6 +13,7 @@
   <img src="https://img.shields.io/badge/Laravel-11-red" alt="Laravel 11">
   <img src="https://img.shields.io/badge/PHP-8.2-blue" alt="PHP 8.2">
   <img src="https://img.shields.io/badge/MySQL-8.0-green" alt="MySQL">
+  <img src="https://img.shields.io/badge/Vue.js-3-green" alt="Vue 3">
   
 </p>
 

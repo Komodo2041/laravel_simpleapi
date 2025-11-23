@@ -4,7 +4,7 @@
 <h1 align="center">Laravel Simple API – Company & Worker CRUD</h1>
 
 <p align="center">
-  <strong>REST API | Laravel 11 | MySQL | Live Demo</strong><br>
+  <strong>REST API | Laravel 11 | MySQL | Vue.js </strong><br>
  
   <a href="https://github.com/Komodo2041/laravel_simpleapi">GitHub</a>
 </p>

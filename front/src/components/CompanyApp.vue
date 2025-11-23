@@ -9,7 +9,8 @@
                <td>{{c.city}}</td>
                <td>{{c.nip}}</td>
               <td>
-                  <a href="#" v-on:click="deleteCompany(c.id)" > x </a>
+                  <a href="#" class="btn btn-danger" v-on:click="deleteCompany(c.id)" > Delete </a>&nbsp;
+                  <a href="#" class="btn btn-primary" v-on:click="editCompany(c.id)" > Edit </a>
               </td>
             </tr>
          </table>
@@ -22,9 +23,10 @@
              {{success}}
           </div>            
           <div class="col-12">      
-            <form action=""  method="POST" v-on:submit.prevent="addCompany"  >  
+            <form action=""  method="POST" v-on:submit.prevent="handleForm"  >  
               <div class="form-group">
                 <h4>Dodaj Nową firumę</h4>
+                <input type="hidden" name="idCompany" v-model="idcompany" />
                 <label>Nazwa Firmy</label>
                 <input type="text" name="name" class="form-control " v-model="name" /><br/>
                 <label>Adress</label>
@@ -35,7 +37,8 @@
                 <input type="text" name="postcode" class="form-control " v-model="postcode" /><br/>     
                 <label>NIP</label>
                 <input type="text" name="nip" class="form-control "  v-model="nip" /><br/>                 
-                <input type="submit" class="btn btn-primary" value="Dodaj"   />
+                <input type="submit" class="btn btn-primary" value="Dodaj" v-show="idcompany == 0"  />
+                 <input type="submit" class="btn btn-primary" value="Edytuj"  v-show="idcompany != 0" />
             </div>
             </form>
           </div> 
@@ -55,10 +58,10 @@
   
     let company = await loadFirms();
    
-
-
+ 
 export default {
  
+
   data() {
     return {
       company: company,
@@ -70,8 +73,9 @@ export default {
       showerror: false,
       error: "",
       success: "",
-      showsuccess: false
-    }
+      showsuccess: false,
+      idcompany: 0
+    };
   }, methods: {
       addFirm : async function(data) {
         let link = "http://127.0.0.1:8000/api/company/add";
@@ -83,6 +87,16 @@ export default {
           }
  
      },
+      editFirm : async function(data, id) {
+        let link = "http://127.0.0.1:8000/api/company/update/" + id;
+        try {
+            const response = await axios.post(link, data);
+            return response.data;
+          } catch (error) {  
+            return error.response.data;  
+          }
+ 
+     },     
      deleteFirm : async function(id) {
         let link = "http://127.0.0.1:8000/api/company/delete/" + id;
         try {
@@ -91,18 +105,52 @@ export default {
           } catch (error) {  
             return error.response.data;  
           }
+     },
+     handleForm: function() {
+
+        let datac = {
+          name: this.name,
+          city: this.city,
+          postcode: this.postcode,
+          nip: this.nip,
+          adress: this.adress
+        };
+        if (this.idcompany) {
+          this.editCompanyForm(datac, this.idcompany);
+        } else {
+          this.addCompany(datac);
+        }
+
      },     
-     addCompany: function() {
- 
-      let datac = {
-        name: this.name,
-        city: this.city,
-        postcode: this.postcode,
-        nip: this.nip,
-        adress: this.adress
-      };
-   
+     addCompany: function(datac) {
+  
       this.addFirm(datac).then(response => {
+            const res = response;
+ 
+            if (res.errors && res.errors.length > 0) {
+              this.showerror = true;
+              this.error =  res.errors.join(", ");
+              this.success = false;
+            }  else {
+              this.showerror = false;
+              this.error = "";
+              this.clearForm(); 
+              this.showsuccess = true;
+              this.success = res.message;
+              loadFirms().then(response => {
+                 this.company = response;
+              })
+            }
+ 
+        }).catch(error => {
+           console.log(error);
+        });
+  
+      return false;
+    }, 
+    editCompanyForm: function(datac, id) {
+ 
+      this.editFirm(datac, id).then(response => {
             const res = response;
  
             if (res.errors && res.errors.length > 0) {
@@ -126,13 +174,14 @@ export default {
  
  
       return false;
-    }, 
+    },    
     clearForm() {
       this.name = "";
       this.city = "";
       this.postcode = "";
       this.nip = "";
       this.adress = "";
+      this.idcompany = 0;
     },
     deleteCompany : function(id) {
           let ok = confirm("Are you sure?");
@@ -156,6 +205,25 @@ export default {
           }).catch(error => {
             console.log(error);
           });
+        }
+    },
+    editCompany : function(id) {
+        let selected = "";
+        for (let i = 0; i < this.company.length; i++) {
+           if (this.company[i]['id'] == id) {
+            selected = this.company[i];
+            break;
+           }
+        }
+        if (selected) {
+          this.name = selected['name'];
+          this.city = selected['city'];
+          this.postcode = selected['postcode'];
+          // this.nip = selected['nip'];
+          this.adress = selected['adress'];
+          this.idcompany = selected['id'];
+        } else {
+           // alert("Error");
         }
     }
   }

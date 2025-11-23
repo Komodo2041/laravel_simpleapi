@@ -9,6 +9,7 @@
                <td>{{c.city}}</td>
                <td>{{c.nip}}</td>
               <td>
+                  
                   <a href="#" class="btn btn-danger" v-on:click="deleteCompany(c.id)" > Delete </a>&nbsp;
                   <a href="#" class="btn btn-primary" v-on:click="editCompany(c.id)" > Edit </a>
               </td>
@@ -36,7 +37,9 @@
                 <label>Kod poczotwy</label>
                 <input type="text" name="postcode" class="form-control " v-model="postcode" /><br/>     
                 <label>NIP</label>
-                <input type="text" name="nip" class="form-control "  v-model="nip" /><br/>                 
+                <input type="text" name="nip" class="form-control "  v-model="nip" /><br/>    
+
+                <a href="#" class="btn btn-primary"  v-show="idcompany != 0" v-on:click="addnewcomp" >Dodaj nową </a>             
                 <input type="submit" class="btn btn-primary" value="Dodaj" v-show="idcompany == 0"  />
                  <input type="submit" class="btn btn-primary" value="Edytuj"  v-show="idcompany != 0" />
             </div>
@@ -225,6 +228,9 @@ export default {
         } else {
            // alert("Error");
         }
+    }, addnewcomp: function() {
+       this.clearForm();
+       return false;
     }
   }
 }

@@ -11,5 +11,5 @@ Route::get('/companydetails/{id}', [\App\Http\Controllers\API\CompanyController:
 
 
 Route::post('/worker/add', [\App\Http\Controllers\API\WorkerController::class, 'add']);
-Route::post('/worker/delete/{id}', [\App\Http\Controllers\API\WorkerController::class, 'destroy']);
+Route::delete('/worker/delete/{id}', [\App\Http\Controllers\API\WorkerController::class, 'destroy']);
 Route::post('/worker/update/{id}', [\App\Http\Controllers\API\WorkerController::class, 'update']);

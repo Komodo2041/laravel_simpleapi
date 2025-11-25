@@ -9,7 +9,7 @@
             <b>NIP</b> : {{details.nip}} 
        </div>
        <h3>Pracownicy</h3>
-         <table class="table">
+         <table class="table" v-show="workers">
             <tr v-for="w in workers" v-bind:key="w.name"> 
               
                <td>{{w.name}}</td>
@@ -17,11 +17,13 @@
                <td>{{w.email}}</td>
                <td>{{w.phone}}</td>
               <td>
-                   
+                  <a href="#" class="btn btn-primary m-1" v-on:click="editw(w.id)" > Edit </a>
+                  <a href="#" class="btn btn-danger m-1" v-on:click="deletew(w.id)" > Delete </a>&nbsp;
  
               </td>
             </tr>
          </table>
+         <div v-show="workers.length == 0">Brak pracowników</div>
         <div class="row">
 
           <div class="alert alert-warning col-12" role="alert" v-show="showerror">
@@ -110,7 +112,7 @@ export default {
           company_id: this.id
         };
         if (this.idworker) {
-         // this.editWorkerForm(dataw, this.idworker);
+          this.editWorkerForm(dataw, this.idworker);
         } else {
           this.addWorkerForm(dataw);
         }
@@ -136,7 +138,7 @@ export default {
  
      },
       editWorker : async function(data, id) {
-        let link = "http://127.0.0.1:8000/api/worker/update" + id;
+        let link = "http://127.0.0.1:8000/api/worker/update/" + id;
         try {
             const response = await axios.post(link, data);
             return response.data;
@@ -180,7 +182,80 @@ export default {
   
       return false;
     },         
+    editWorkerForm: function(datac, id) {
+ 
+      this.editWorker(datac, id).then(response => {
+            const res = response;
+ 
+            if (res.errors && res.errors.length > 0) {
+              this.showerror = true;
+              this.error =  res.errors.join(", ");
+              this.success = false;
+            }  else {
+              this.showerror = false;
+              this.error = "";
+              this.clearForm(); 
+              this.showsuccess = true;
+              this.success = res.message;
+              this.refreshdata();
+            }
+ 
+        }).catch(error => {
+           console.log(error);
+        });
+ 
+ 
+      return false;
+    }, 
+    editw : function(id) {
+        let selected = "";
+        for (let i = 0; i < this.workers.length; i++) {
+           if (this.workers[i]['id'] == id) {
+            selected = this.workers[i];
+            break;
+           }
+        }
+        if (selected) {
+          this.name = selected['name'];
+          this.surname = selected['surname'];
+          this.email = selected['email'];
+          this.phone = selected['phone'];
+          this.idworker = selected['id'];
+        } else {
+           // alert("Error");
+        }
+    },
+    deletew : function(id) {
+          let ok = confirm("Are you sure?");
+          if (ok) {
+            this.deleteWorker(id).then(response => {
+              const res = response;
+              if (res.errors && res.errors.length > 0) {
+                this.showerror = true;
+                this.error =  res.errors.join(", ");
+                this.success = false;
+              }  else {
+                this.showerror = false;
+                this.error = ""; 
+                this.showsuccess = true;
+                this.success = res.message;
+                this.refreshdata();
+              }
 
+          }).catch(error => {
+            console.log(error);
+          });
+        }
+    },
+     deleteWorker : async function(id) {
+        let link = "http://127.0.0.1:8000/api/worker/delete/" + id;
+        try {
+            const response = await axios.delete(link);
+            return response.data;
+          } catch (error) {  
+            return error.response.data;  
+          }
+     },    
   }
  
 

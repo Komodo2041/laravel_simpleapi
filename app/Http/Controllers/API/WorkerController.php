@@ -30,7 +30,7 @@ class WorkerController extends Controller
        
     }
 
-    private function validateWorker($params, $fields = ['name', 'surname', 'email', 'company_id']) {
+    private function validateWorker($params, $fields = ['name', 'surname', 'email',  'company_id']) {
         $errors = [];
         foreach ($fields AS $key) {
            if (!isset($params[$key])) {
@@ -68,7 +68,7 @@ class WorkerController extends Controller
     {
         $worker = Workers::find($id);   
         if ($worker) {
-            $fields = ['name', 'surname', 'email', 'company_id'];
+            $fields = ['name', 'surname', 'email', 'phone', 'company_id'];
             $allData = $request->all();
             $toUpdate = [];
             foreach ($fields AS $key) {

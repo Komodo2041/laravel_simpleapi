@@ -34,7 +34,8 @@ Na froncie użyteo Vue.js w połączeniu z Laravelem na backendzie
 | `POST` | `/api/company/add` | Dodaj firmę | `{ "name": "TechCorp", "city": "Warszawa" }` |
 | `POST` | `/api/company/update/{id}` | Aktualizuj | `{ "name": "NewName" }` |
 | `DELETE` | `/api/company/delete/{id}` | Usuń | – |
-
+| `GET` | `/api/companydetails/{id}` | Pobierz szczegóły firmy wraz z pracownikami | – |
+ 
 ### Pracownicy (Worker)
 
 | Metoda | Ścieżka | Opis | Przykład payload |

@@ -17,11 +17,43 @@
                <td>{{w.email}}</td>
                <td>{{w.phone}}</td>
               <td>
-                  
+                   
  
               </td>
             </tr>
          </table>
+        <div class="row">
+
+          <div class="alert alert-warning col-12" role="alert" v-show="showerror">
+             {{error}}
+          </div>
+          <div class="alert alert-warning col-12" role="alert" v-show="showsuccess">
+             {{success}}
+          </div>  
+
+          <div class="col-2"></div>  
+          <div class="col-8">      
+            <form action=""  method="POST" v-on:submit.prevent="handleForm"  >  
+              <div class="form-group">
+                <h4>Dodaj Nowego pracownika </h4>
+                <input type="hidden" name="idWorker" v-model="idworker" />
+                <label>Imię</label>
+                <input type="text" name="name" class="form-control " v-model="name" /><br/>
+                <label>Nazwisko</label>
+                <input type="text" name="surname" class="form-control " v-model="surname" /><br/>
+                <label>Email</label>
+                <input type="text" name="email" class="form-control " v-model="email" /><br/>
+                <label>Phone</label>
+                <input type="text" name="phone" class="form-control " v-model="phone" /><br/>                    
+
+                <a href="#" class="btn btn-primary m-2"  v-show="idworker != 0" v-on:click="addnewwork" >Dodaj nowego Pracownika </a>             
+                <input type="submit" class="btn btn-primary" value="Dodaj" v-show="idworker == 0"  />
+                 <input type="submit" class="btn btn-primary" value="Edytuj"  v-show="idworker != 0" />
+            </div>
+            </form>
+          </div> 
+        </div> 
+
    </div>
 </template>
 <script>
@@ -39,24 +71,51 @@ export default {
   data() {
     return {
         "workers" : [],
-        "details" : []
+        "details" : [],
+        name: "",
+        surname: "",
+        phone: "",
+        email: "",    
+        showerror: false,
+        error: "",
+        success: "",
+        showsuccess: false,
+        idworker: 0            
     }
   },
   created() {
  
-    this.getcompany(this.id).then(response => {
-        console.log(response.message);
-        console.log(response.data);
-        this.details = response.data;
-        this.workers = response.workers;
-
-     }).catch(error => {
-        console.log(error);
-     });
-
+     this. refreshdata()
  
   },
+ 
   methods: {
+    refreshdata : function() {
+        this.getcompany(this.id).then(response => {
+ 
+            this.details = response.data;
+            this.workers = response.workers;
+
+        }).catch(error => {
+            console.log(error);
+        });
+    },    
+     handleForm: function() {
+
+        let dataw = {
+          name: this.name,
+          surname: this.surname,
+          email: this.email,
+          phone: this.phone,
+          company_id: this.id
+        };
+        if (this.idworker) {
+         // this.editWorkerForm(dataw, this.idworker);
+        } else {
+          this.addWorkerForm(dataw);
+        }
+
+     },     
     getcompany: async function(id) {
         let link = "http://127.0.0.1:8000/api/companydetails/" + id;
         try { 
@@ -65,12 +124,68 @@ export default {
           } catch (error) {  
             return error.response.data;  
           }
-    }
+    },
+      addWorker : async function(data) {
+        let link = "http://127.0.0.1:8000/api/worker/add";
+        try {
+            const response = await axios.post(link, data);
+            return response.data;
+          } catch (error) {  
+            return error.response.data;  
+          }
+ 
+     },
+      editWorker : async function(data, id) {
+        let link = "http://127.0.0.1:8000/api/worker/update" + id;
+        try {
+            const response = await axios.post(link, data);
+            return response.data;
+          } catch (error) {  
+            return error.response.data;  
+          }
+ 
+     },  
+    clearForm() {
+      this.name = "";
+      this.surname = "";
+      this.email = "";
+      this.phone = ""; 
+      this.idworker = 0;
+    },
+    addnewwork: function() {
+       this.clearForm();
+       return false;
+    },
+    addWorkerForm: function(dataw) {
+  
+      this.addWorker(dataw).then(response => {
+            const res = response;
+ 
+            if (res.errors && res.errors.length > 0) {
+              this.showerror = true;
+              this.error =  res.errors.join(", ");
+              this.success = false;
+            }  else {
+              this.showerror = false;
+              this.error = "";
+              this.clearForm(); 
+              this.showsuccess = true;
+              this.success = res.message;
+              this.refreshdata();
+            }
+ 
+        }).catch(error => {
+           console.log(error);
+        });
+  
+      return false;
+    },         
+
   }
  
 
 }        
 </script>
 <style>
- .comdetail {font-size:25px; padding:20px 0px;}
+   .comdetail {font-size:25px; padding:20px 0px;}
 </style>

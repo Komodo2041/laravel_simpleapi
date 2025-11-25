@@ -7,6 +7,8 @@ Route::get('/company', [\App\Http\Controllers\API\CompanyController::class, 'com
 Route::post('/company/add', [\App\Http\Controllers\API\CompanyController::class, 'add']);
 Route::delete('/company/delete/{id}', [\App\Http\Controllers\API\CompanyController::class, 'destroy']);
 Route::post('/company/update/{id}', [\App\Http\Controllers\API\CompanyController::class, 'update']);
+Route::get('/companydetails/{id}', [\App\Http\Controllers\API\CompanyController::class, 'companydetails']);
+
 
 Route::post('/worker/add', [\App\Http\Controllers\API\WorkerController::class, 'add']);
 Route::post('/worker/delete/{id}', [\App\Http\Controllers\API\WorkerController::class, 'destroy']);

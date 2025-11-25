@@ -10,8 +10,12 @@
                <td>{{c.nip}}</td>
               <td>
                   
-                  <a href="#" class="btn btn-danger" v-on:click="deleteCompany(c.id)" > Delete </a>&nbsp;
-                  <a href="#" class="btn btn-primary" v-on:click="editCompany(c.id)" > Edit </a>
+                   <router-link :to="{ name: 'CompanyDetail', params: { id: c.id } }">
+                      <input type="button" class="btn btn-primary m-1" value="Details">  
+                    </router-link>
+ 
+                  <a href="#" class="btn btn-primary m-1" v-on:click="editCompany(c.id)" > Edit </a>
+                  <a href="#" class="btn btn-danger m-1" v-on:click="deleteCompany(c.id)" > Delete </a>&nbsp;
               </td>
             </tr>
          </table>
@@ -39,7 +43,7 @@
                 <label>NIP</label>
                 <input type="text" name="nip" class="form-control "  v-model="nip" /><br/>    
 
-                <a href="#" class="btn btn-primary"  v-show="idcompany != 0" v-on:click="addnewcomp" >Dodaj nową </a>             
+                <a href="#" class="btn btn-primary m-2"  v-show="idcompany != 0" v-on:click="addnewcomp" >Dodaj nową </a>             
                 <input type="submit" class="btn btn-primary" value="Dodaj" v-show="idcompany == 0"  />
                  <input type="submit" class="btn btn-primary" value="Edytuj"  v-show="idcompany != 0" />
             </div>

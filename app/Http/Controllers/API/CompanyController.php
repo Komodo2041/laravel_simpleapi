@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Company;
+use App\Models\Workers;
 
 class CompanyController extends Controller
 {
@@ -15,6 +16,16 @@ class CompanyController extends Controller
         return response()->json(['company' => $company], 200);
     }
 
+    public function companydetails($id) {
+        $company = Company::find($id);
+        $workers = $company->workers()->get();
+
+        if ($company) {
+            return response()->json(['message' => 'company details', 'data' => $company, 'workers' => $workers], 200);
+        } else {
+            return response()->json(['message' => 'No Found Company', 'errors' => $errors], 404);
+        }
+    }
 
     public function add(Request $request)
     {
